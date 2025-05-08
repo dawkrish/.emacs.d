@@ -117,6 +117,9 @@
 (use-package consult-eglot
   :after (consult eglot))
 
+(use-package gleam-ts-mode
+  :mode (rx ".gleam" eos))
+
 (use-package haskell-mode
   :hook ((haskell-mode . interactive-haskell-mode)
          (haskell-mode . eglot-ensure)))
