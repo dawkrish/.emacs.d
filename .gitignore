@@ -1,0 +1,20 @@
+# Byte-compiled files
+*.elc
+
+# Auto-save and backup files
+auto-save-list/
+*~
+.#*
+
+# Custom user settings
+recentf
+tramp
+
+# Package manager cache
+elpa/
+
+# Transient data (e.g., Magit, etc.)
+transient/
+
+# Lock files
+*.lock
