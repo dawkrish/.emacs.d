@@ -14,9 +14,9 @@
  '(package-selected-packages
    '(all-the-icons color-theme-sanityinc-tomorrow company-box
 		   consult-eglot doom-themes eldoc-box
-		   exec-path-from-shell format-all haskell-mode magit
-		   marginalia orderless rust-mode solo-jazz-theme
-		   vertico vterm)))
+		   exec-path-from-shell format-all gleam-ts-mode
+		   haskell-mode magit marginalia markdown-mode
+		   orderless rust-mode solo-jazz-theme vertico vterm)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

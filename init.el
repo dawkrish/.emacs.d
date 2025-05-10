@@ -26,8 +26,8 @@
 (recentf-mode 1)
 (add-hook 'emacs-lisp-mode-hook #'format-all-mode)
 
-(load-theme 'modus-operandi t)
-(set-frame-font "IBM Plex Mono 15" nil t)
+(load-theme 'modus-vivendi t)
+(set-frame-font "Iosevka 14" nil t)
 
 (global-display-line-numbers-mode t)
 (setq display-line-numbers-type 'relative)
@@ -45,7 +45,7 @@
         ("gnu"   . "https://elpa.gnu.org/packages/")))
 (package-initialize)
 (unless package-archive-contents
-  (package-refresh-contents))
+  (pacnkage-refresh-contents))
 
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
@@ -57,11 +57,23 @@
 ;; Essential Packages
 ;; ------------------------------
 
+(use-package markdown-mode
+  :ensure t
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . gfm-mode)
+         ("\\.markdown\\'" . gfm-mode))
+  :init
+  (setq markdown-command "pandoc")
+  :config
+  (add-hook 'gfm-mode-hook #'visual-line-mode)
+  (add-hook 'gfm-mode-hook #'flyspell-mode)
+  (define-key gfm-mode-map (kbd "C-c C-p") #'markdown-live-preview-mode))
+
 (use-package which-key
   :config (which-key-mode))
 
-(use-package vertico
-  :init (vertico-mode)
+(use-package  vertico
+  :init     (vertico-mode)
   :config
   (setq vertico-count 20))
 
@@ -85,8 +97,9 @@
          ("C-c m"   . consult-imenu)
          ("C-c e"   . consult-eglot-symbols))
   :config
-  (setq consult-narrow-key "<"
+  (setq consult-narrow-key nil
         consult-preview-key 'any
+        consult-async-min-input 2 ; Minimum characters before search starts
         completion-styles '(orderless)))
 
 (use-package company
@@ -131,7 +144,17 @@
                         (setq indent-tabs-mode nil
                               rust-format-on-save t)))))
 
-(add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-mode t)
+;; ------------------------------
+;; Documentation UI
+;; ------------------------------
+
+(use-package eldoc-box
+  :after eldoc
+  :hook (eglot-managed-mode . eldoc-box-hover-mode)
+  :config
+  (setq eldoc-box-clear-with-C-g t
+        eldoc-box-only-multi-line t))
+
 ;; ------------------------------
 ;; Formatting Utilities
 ;; ------------------------------
@@ -140,24 +163,6 @@
   :hook ((prog-mode . format-all-ensure-formatter))
   :config
   (add-hook 'prog-mode-hook 'format-all-mode))
-
-;; (defun my/format-buffer ()
-;;   "Try `eglot-format-buffer'. If it fails, use `format-all-buffer'."
-;;   (interactive)
-;;   (condition-case err
-;;       (eglot-format-buffer)
-;;     (error
-;;      (message "eglot-format-buffer failed: %s; falling back to format-all-buffer" err)
-;;      (format-all-buffer))))
-
-;; (defun my/format-and-save-buffer ()
-;;   "Format the current buffer and save it. Use eglot if available, otherwise format-all."
-;;   (interactive)
-;;   (my/format-buffer)
-;;   (save-buffer))
-
-;; (global-set-key (kbd "C-c C-f" ) #'my/format-buffer)
-;; (global-set-key (kbd "C-c C-s") #'my/format-and-save-buffer)
 
 ;; ------------------------------
 ;; Other Tools
